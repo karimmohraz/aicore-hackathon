@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: tabular-data-train
+  annotations:
+    scenarios.ai.sap.com/description: "Tabular data scikit example"
+    scenarios.ai.sap.com/name: "tabular-data-scenario"
+    executables.ai.sap.com/description: "Training executable for tabular data using scikit"
+    executables.ai.sap.com/name: "tabular-data-training-executable"
+    artifacts.ai.sap.com/tabular-data.kind: "dataset"
+    artifacts.ai.sap.com/tabular-model.kind: "model"
+  labels:
+    scenarios.ai.sap.com/id: "churn-prediction-scikit-scid"
+    ai.sap.com/version: "0.0.1"
+spec:
+    imagePullSecrets:
+    - name: ttm-docker-repo
+    entrypoint: churn-training
+    templates:
+      - name: churn-training
+        inputs:
+          artifacts:
+          - name: tabular-data
+            path: /app/data/
+        outputs:
+          artifacts:
+          - name: tabular-model
+            path: /app/model
+            globalName: tabular-model
+            archive:
+              none: {}
+        container:
+          image: "mlf.common.cdn.repositories.cloud.sap/workshop/aif/aif-tabular-sk-train:0.0.1"
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+          - >
+            set -e && echo "Start Training" && python /app/src/train.py && ls -lR /app/model
