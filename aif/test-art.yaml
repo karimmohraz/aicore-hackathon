@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: tabular-data-train
+  name: test-art
   annotations:
     scenarios.ai.sap.com/description: "Tabular data scikit example"
     scenarios.ai.sap.com/name: "tabular-data-scenario"
@@ -14,7 +14,7 @@ metadata:
     ai.sap.com/version: "0.0.1"
 spec:
     imagePullSecrets:
-    - name: ttm-docker-repo
+    - name: test
     entrypoint: churn-training
     templates:
       - name: churn-training
@@ -30,9 +30,9 @@ spec:
             archive:
               none: {}
         container:
-          image: "mlf.common.cdn.repositories.cloud.sap/workshop/aif/aif-tabular-sk-train:0.0.1"
+          image: "python:3.8-slim"
           imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
           - >
-            set -e && echo "Start Training" && python /app/src/train.py && ls -lR /app/model
+            set -e && echo "Start" && ls -alR /app/data
