@@ -1,0 +1,45 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  annotations:
+    executables.ai.sap.com/description: "Inferece executable for tabular data centaur image"
+    executables.ai.sap.com/name: "tabular-data-infer-executable"
+  labels:
+    ai.sap.com/version: 0.0.1
+    scenarios.ai.sap.com/id: "churn-prediction-scikit-scid"
+  name: tabular-data-infer
+spec:
+  inputs:
+    parameters:
+      - name: modelName
+        default: dummy
+        type: string
+    artifacts:
+      - name: churnmodel
+  template:
+    apiVersion: "serving.kubeflow.org/v1beta1"  
+    spec: |
+      predictor:
+        imagePullSecrets:
+          - name: ttm-docker-repo
+        minReplicas: 1
+        containers:
+        - name: kfserving-container
+          image: mlf.common.cdn.repositories.cloud.sap/workshop/aif/aif-tabular-sk-infer:0.0.1
+          ports:
+            - containerPort: 53547
+              protocol: TCP
+          env:
+            - name: STORAGE_URI
+              value: "{{inputs.artifacts.churnmodel}}"
+            - name: MODEL_NAME
+              value: "{{inputs.parameters.modelName}}"
+            - name: PY_MODEL_PATH
+              value: "/mnt/models"
+            - name: PY_MODEL_INTERFACE_FILEPATH
+              value: "/app/src/model.py"
+            - name: PY_MODEL_INTERFACE_CLASS_NAME
+              value: "ModelInterface"
+            - name: PY_INTERPRETER_PATH
+              value: "/venvs/centaur/bin/python"
+        timeout: 30
