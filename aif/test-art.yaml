@@ -22,13 +22,6 @@ spec:
           artifacts:
           - name: tabular-data
             path: /app/data/
-        outputs:
-          artifacts:
-          - name: tabular-model
-            path: /app/model
-            globalName: tabular-model
-            archive:
-              none: {}
         container:
           image: "python:3.8-slim"
           imagePullPolicy: Always
