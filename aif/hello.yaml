@@ -1,7 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: WorkflowTemplate
 metadata:
-  generateName: steps-
+  name: steps
+  annotations:
+    scenarios.ai.sap.com/name: "tabular-data-scenario"
+    executables.ai.sap.com/name: "hello"
+  labels:
+    scenarios.ai.sap.com/id: "hello-scenario"
+    ai.sap.com/version: "0.0.1"
 spec:
   entrypoint: hello           # We reference our first "template" here
 
