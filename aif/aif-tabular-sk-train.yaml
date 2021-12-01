@@ -14,7 +14,7 @@ metadata:
     ai.sap.com/version: "0.0.1"
 spec:
     imagePullSecrets:
-    - name: ttm-docker-repo
+    - name: docker-secret
     entrypoint: churn-training
     templates:
       - name: churn-training
@@ -30,7 +30,7 @@ spec:
             archive:
               none: {}
         container:
-          image: "mlf.common.cdn.repositories.cloud.sap/workshop/aif/aif-tabular-sk-train:0.0.1"
+          image: "docker.io/kazwo/test/aif-tabular-sk-train"
           imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
