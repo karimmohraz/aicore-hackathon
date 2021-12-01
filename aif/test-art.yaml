@@ -14,7 +14,7 @@ metadata:
     ai.sap.com/version: "0.0.1"
 spec:
     imagePullSecrets:
-    - name: test
+    - name: default-test
     entrypoint: churn-training
     templates:
       - name: churn-training
