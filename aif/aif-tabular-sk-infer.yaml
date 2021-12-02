@@ -25,7 +25,7 @@ spec:
         minReplicas: 1
         containers:
         - name: kfserving-container
-          image: kazwo/aif:sk-infer.0.1
+          image: kazwo/aif@sha256:6f4e56128a42351a789f7fb065fb23575fdea7a49f20108cbe7fdeba88faab78
           ports:
             - containerPort: 53547
               protocol: TCP
