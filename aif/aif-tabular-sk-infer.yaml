@@ -21,11 +21,11 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-          - name: ttm-docker-repo
+          - name: docker-secret
         minReplicas: 1
         containers:
         - name: kfserving-container
-          image: mlf.common.cdn.repositories.cloud.sap/workshop/aif/aif-tabular-sk-infer:0.0.1
+          image: kazwo/aif:sk-infer.0.1
           ports:
             - containerPort: 53547
               protocol: TCP
